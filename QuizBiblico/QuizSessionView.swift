@@ -137,6 +137,7 @@ struct AnswerButton: View {
 
 struct ExplanationCard: View {
     let question: QuizQuestion
+    @State private var showFullExplanation = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -147,11 +148,79 @@ struct ExplanationCard: View {
                 Image(systemName: "book.closed.fill").foregroundStyle(.indigo)
                 Text(question.reference).font(.caption.bold()).foregroundStyle(.indigo)
             }
+            if !question.propheticMeaning.isEmpty {
+                Button {
+                    showFullExplanation = true
+                } label: {
+                    Label("Ver Explicação Completa", systemImage: "text.book.closed.fill")
+                        .font(.subheadline.bold())
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 10)
+                        .background(Color.indigo)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+            }
         }
         .padding()
         .background(Color.indigo.opacity(0.08))
         .cornerRadius(14)
         .padding(.horizontal)
+        .sheet(isPresented: $showFullExplanation) {
+            FullExplanationView(question: question)
+        }
+    }
+}
+
+struct FullExplanationView: View {
+    let question: QuizQuestion
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    Text(question.question)
+                        .font(.headline)
+                        .padding()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(Color(.systemGray6))
+                        .cornerRadius(12)
+
+                    VStack(alignment: .leading, spacing: 8) {
+                        Label("Explicação", systemImage: "info.circle.fill")
+                            .font(.title3.bold()).foregroundStyle(.indigo)
+                        Text(question.explanation).font(.body)
+                        HStack {
+                            Image(systemName: "book.closed.fill").foregroundStyle(.indigo)
+                            Text(question.reference).font(.subheadline.bold()).foregroundStyle(.indigo)
+                        }
+                    }
+                    .padding()
+                    .background(Color.indigo.opacity(0.08))
+                    .cornerRadius(14)
+
+                    VStack(alignment: .leading, spacing: 8) {
+                        Label("Sentido Profético", systemImage: "sparkles")
+                            .font(.title3.bold()).foregroundStyle(.purple)
+                        Text(question.propheticMeaning)
+                            .font(.body)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    .padding()
+                    .background(Color.purple.opacity(0.08))
+                    .cornerRadius(14)
+                }
+                .padding()
+            }
+            .navigationTitle("Explicação Completa")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Fechar") { dismiss() }
+                }
+            }
+        }
     }
 }
 

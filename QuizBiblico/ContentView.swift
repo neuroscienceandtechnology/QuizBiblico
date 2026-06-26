@@ -7,6 +7,8 @@ struct ContentView: View {
                 .tabItem { Label("Início", systemImage: "house.fill") }
             QuizMenuView()
                 .tabItem { Label("Quiz", systemImage: "questionmark.circle.fill") }
+            BibleView()
+                .tabItem { Label("Bíblia", systemImage: "book.fill") }
             DailyChallengeView()
                 .tabItem { Label("Desafio", systemImage: "star.fill") }
             StatsView()

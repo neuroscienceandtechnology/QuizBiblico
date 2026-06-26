@@ -17,6 +17,7 @@ struct QuizQuestion: Identifiable, Codable {
     let explanation: String
     let reference: String
     let category: BibleCategory
+    var propheticMeaning: String = ""
 
     var correctAnswer: String { options[correctIndex] }
 }
