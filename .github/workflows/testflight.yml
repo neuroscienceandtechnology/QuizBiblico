@@ -1,29 +1,48 @@
-name: TestFlight
+name: Deploy to TestFlight
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
-  build:
+  deploy:
     runs-on: macos-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select newest available Xcode
+        run: |
+          echo "=== Installed Xcode versions ==="
+          ls /Applications/ | grep -E "^Xcode" || echo "(none found)"
+          NEWEST=$(ls /Applications/ | grep -E "^Xcode_[0-9]" | sort -t_ -k2 -V | tail -1)
+          if [ -n "$NEWEST" ]; then
+            XCODE_PATH="/Applications/${NEWEST}"
+            echo "Selecting: $XCODE_PATH"
+            sudo xcode-select -s "${XCODE_PATH}/Contents/Developer"
+          fi
+          echo "Active Xcode:"
+          xcode-select -p
+          xcodebuild -version
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.2'
+          ruby-version: "3.2"
           bundler-cache: true
 
-      - name: Install Fastlane
-        run: gem install fastlane spaceship
-
-      - name: Build & Upload to TestFlight
+      - name: Deploy to TestFlight
         env:
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           ASC_API_KEY: ${{ secrets.ASC_API_KEY }}
-          MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          MATCH_GIT_URL: https://x-access-token:${{ github.token }}@github.com/neuroscienceandtechnology/QuizBiblico.git
           GITHUB_RUN_NUMBER: ${{ github.run_number }}
-        run: fastlane beta
+        run: bundle exec fastlane beta
