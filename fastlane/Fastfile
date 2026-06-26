@@ -55,12 +55,14 @@ platform :ios do
     build_number = ENV["GITHUB_RUN_NUMBER"] || "1"
     increment_build_number(build_number: build_number)
 
+    profile_name = lane_context[SharedValues::MATCH_PROVISIONING_PROFILE_MAPPING]["com.matheusresende.quizbiblico"]
+
     build_app(
       scheme: "QuizBiblico",
       xcargs: {
         "CODE_SIGN_STYLE" => "Manual",
         "CODE_SIGN_IDENTITY" => "Apple Distribution",
-        "PROVISIONING_PROFILE_SPECIFIER" => "match AppStore com.matheusresende.quizbiblico"
+        "PROVISIONING_PROFILE_SPECIFIER" => profile_name
       },
       export_method: "app-store",
       export_options: {
