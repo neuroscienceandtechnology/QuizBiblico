@@ -45,9 +45,9 @@ struct QuestionView: View {
                     .padding(.horizontal)
 
                 VStack(spacing: 12) {
-                    ForEach(0..<question.options.count, id: \.self) { index in
+                    ForEach(0..<vm.displayOptions.count, id: \.self) { index in
                         AnswerButton(
-                            text: question.options[index],
+                            text: vm.displayOptions[index],
                             state: answerState(for: index),
                             action: { vm.selectAnswer(index) }
                         )
@@ -81,7 +81,7 @@ struct QuestionView: View {
 
     private func answerState(for index: Int) -> AnswerButtonState {
         guard let selected = vm.selectedAnswerIndex else { return .normal }
-        if index == question.correctIndex { return .correct }
+        if index == vm.displayCorrectIndex { return .correct }
         if index == selected { return .wrong }
         return .dimmed
     }
@@ -106,7 +106,7 @@ struct AnswerButton: View {
                 }
             }
             .padding()
-            .frame(maxWidth: .infinity)
+            .frame(maxWidth: .infinity, minHeight: 56)
             .background(backgroundColor)
             .foregroundColor(foregroundColor)
             .cornerRadius(12)

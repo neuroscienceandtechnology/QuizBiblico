@@ -3,6 +3,8 @@ import Combine
 
 class QuizViewModel: ObservableObject {
     @Published var currentQuestion: QuizQuestion?
+    @Published var displayOptions: [String] = []
+    @Published var displayCorrectIndex: Int = 0
     @Published var selectedAnswerIndex: Int? = nil
     @Published var showExplanation = false
     @Published var sessionScore = 0
@@ -36,13 +38,13 @@ class QuizViewModel: ObservableObject {
     }
 
     func selectAnswer(_ index: Int) {
-        guard selectedAnswerIndex == nil, let question = currentQuestion else { return }
+        guard selectedAnswerIndex == nil, currentQuestion != nil else { return }
         selectedAnswerIndex = index
-        let isCorrect = index == question.correctIndex
+        let isCorrect = index == displayCorrectIndex
         progress.totalAnswered += 1
         sessionTotal += 1
         if isCorrect { progress.totalCorrect += 1; sessionScore += 1 }
-        if !progress.answeredQuestionIDs.contains(question.id) {
+        if let question = currentQuestion, !progress.answeredQuestionIDs.contains(question.id) {
             progress.answeredQuestionIDs.append(question.id)
         }
         showExplanation = !isCorrect
@@ -64,7 +66,12 @@ class QuizViewModel: ObservableObject {
 
     private func loadCurrentQuestion() {
         guard sessionIndex < sessionQuestions.count else { return }
-        currentQuestion = sessionQuestions[sessionIndex]
+        let q = sessionQuestions[sessionIndex]
+        currentQuestion = q
+        var indices = Array(0..<q.options.count)
+        indices.shuffle()
+        displayOptions = indices.map { q.options[$0] }
+        displayCorrectIndex = indices.firstIndex(of: q.correctIndex) ?? q.correctIndex
     }
 
     private func updateStreak() {
