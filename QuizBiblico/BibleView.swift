@@ -47,10 +47,6 @@ struct BibleView: View {
                 .searchable(text: $searchText, prompt: "Buscar livro")
                 .listStyle(.plain)
 
-                Text("Tradução: João Ferreira de Almeida (domínio público)")
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
-                    .padding(.bottom, 8)
             }
             .navigationTitle("Bíblia Sagrada")
         }
