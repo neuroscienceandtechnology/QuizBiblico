@@ -28,6 +28,7 @@
 		2F9E4D372FEF2E2F001907B5 /* BibleReaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9E4D362FEF2E2F001907B5 /* BibleReaderViewModel.swift */; };
 		2F9E4D392FEF2E2F001907B5 /* BibleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9E4D382FEF2E2F001907B5 /* BibleView.swift */; };
 		2F9E4D3B2FEF2E2F001907B5 /* BibleChapterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9E4D3A2FEF2E2F001907B5 /* BibleChapterView.swift */; };
+		C00100002FEF2E2F001907B5 /* bible_pt.json in Resources */ = {isa = PBXBuildFile; fileRef = C00000002FEF2E2F001907B5 /* bible_pt.json */; };
 		B10100002FEF2E2F001907B5 /* Questions1.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10100002FEF2E2F001907B5 /* Questions1.swift */; };
 		B10200002FEF2E2F001907B5 /* Questions2.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10200002FEF2E2F001907B5 /* Questions2.swift */; };
 		B10300002FEF2E2F001907B5 /* Questions3.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10300002FEF2E2F001907B5 /* Questions3.swift */; };
@@ -84,6 +85,7 @@
 		2F9E4D362FEF2E2F001907B5 /* BibleReaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleReaderViewModel.swift; sourceTree = "<group>"; };
 		2F9E4D382FEF2E2F001907B5 /* BibleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleView.swift; sourceTree = "<group>"; };
 		2F9E4D3A2FEF2E2F001907B5 /* BibleChapterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleChapterView.swift; sourceTree = "<group>"; };
+		C00000002FEF2E2F001907B5 /* bible_pt.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = bible_pt.json; sourceTree = "<group>"; };
 		A10100002FEF2E2F001907B5 /* Questions1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Questions1.swift; sourceTree = "<group>"; };
 		A10200002FEF2E2F001907B5 /* Questions2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Questions2.swift; sourceTree = "<group>"; };
 		A10300002FEF2E2F001907B5 /* Questions3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Questions3.swift; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 				2F9E4D362FEF2E2F001907B5 /* BibleReaderViewModel.swift */,
 				2F9E4D382FEF2E2F001907B5 /* BibleView.swift */,
 				2F9E4D3A2FEF2E2F001907B5 /* BibleChapterView.swift */,
+				C00000002FEF2E2F001907B5 /* bible_pt.json */,
 				A10100002FEF2E2F001907B5 /* Questions1.swift */,
 				A10200002FEF2E2F001907B5 /* Questions2.swift */,
 				A10300002FEF2E2F001907B5 /* Questions3.swift */,
@@ -311,6 +314,7 @@
 			files = (
 				2F9E4CFC2FEF2E2E001907B5 /* Preview Assets.xcassets in Resources */,
 				2F9E4CF92FEF2E2E001907B5 /* Assets.xcassets in Resources */,
+				C00100002FEF2E2F001907B5 /* bible_pt.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

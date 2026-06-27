@@ -17,18 +17,6 @@ struct BibleVerse: Identifiable {
     let text: String
 }
 
-// MARK: - API Response
-
-struct BibleAPIResponse: Codable {
-    let verses: [BibleAPIVerse]
-}
-
-struct BibleAPIVerse: Codable {
-    let chapter: Int
-    let verse: Int
-    let text: String
-}
-
 // MARK: - All 66 Books
 
 let allBibleBooks: [BibleBook] = [
