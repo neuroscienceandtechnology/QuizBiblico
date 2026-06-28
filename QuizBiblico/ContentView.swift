@@ -5,6 +5,8 @@ struct ContentView: View {
         TabView {
             HomeView()
                 .tabItem { Label("Início", systemImage: "house.fill") }
+            TrailMapView()
+                .tabItem { Label("Trilha", systemImage: "map.fill") }
             QuizMenuView()
                 .tabItem { Label("Quiz", systemImage: "questionmark.circle.fill") }
             BibleView()

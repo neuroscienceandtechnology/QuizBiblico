@@ -41,6 +41,12 @@
 		B11000002FEF2E2F001907B5 /* Questions10.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11000002FEF2E2F001907B5 /* Questions10.swift */; };
 		B11100002FEF2E2F001907B5 /* Questions11.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11100002FEF2E2F001907B5 /* Questions11.swift */; };
 		B11200002FEF2E2F001907B5 /* Questions12.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11200002FEF2E2F001907B5 /* Questions12.swift */; };
+		3A1100012FEF3000001907B5 /* TrailModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1100002FEF3000001907B5 /* TrailModels.swift */; };
+		3A1200012FEF3000001907B5 /* TrailData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1200002FEF3000001907B5 /* TrailData.swift */; };
+		3A1300012FEF3000001907B5 /* TrailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1300002FEF3000001907B5 /* TrailViewModel.swift */; };
+		3A1400012FEF3000001907B5 /* TrailMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1400002FEF3000001907B5 /* TrailMapView.swift */; };
+		3A1500012FEF3000001907B5 /* TrailStudyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1500002FEF3000001907B5 /* TrailStudyView.swift */; };
+		3A1600012FEF3000001907B5 /* TrailQuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1600002FEF3000001907B5 /* TrailQuizView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +104,12 @@
 		A11000002FEF2E2F001907B5 /* Questions10.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Questions10.swift; sourceTree = "<group>"; };
 		A11100002FEF2E2F001907B5 /* Questions11.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Questions11.swift; sourceTree = "<group>"; };
 		A11200002FEF2E2F001907B5 /* Questions12.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Questions12.swift; sourceTree = "<group>"; };
+		3A1100002FEF3000001907B5 /* TrailModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailModels.swift; sourceTree = "<group>"; };
+		3A1200002FEF3000001907B5 /* TrailData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailData.swift; sourceTree = "<group>"; };
+		3A1300002FEF3000001907B5 /* TrailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailViewModel.swift; sourceTree = "<group>"; };
+		3A1400002FEF3000001907B5 /* TrailMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailMapView.swift; sourceTree = "<group>"; };
+		3A1500002FEF3000001907B5 /* TrailStudyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailStudyView.swift; sourceTree = "<group>"; };
+		3A1600002FEF3000001907B5 /* TrailQuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailQuizView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,6 +189,12 @@
 				A11000002FEF2E2F001907B5 /* Questions10.swift */,
 				A11100002FEF2E2F001907B5 /* Questions11.swift */,
 				A11200002FEF2E2F001907B5 /* Questions12.swift */,
+				3A1100002FEF3000001907B5 /* TrailModels.swift */,
+				3A1200002FEF3000001907B5 /* TrailData.swift */,
+				3A1300002FEF3000001907B5 /* TrailViewModel.swift */,
+				3A1400002FEF3000001907B5 /* TrailMapView.swift */,
+				3A1500002FEF3000001907B5 /* TrailStudyView.swift */,
+				3A1600002FEF3000001907B5 /* TrailQuizView.swift */,
 				2F9E4CF82FEF2E2E001907B5 /* Assets.xcassets */,
 				2F9E4CFA2FEF2E2E001907B5 /* Preview Content */,
 			);
@@ -367,6 +385,12 @@
 				B11000002FEF2E2F001907B5 /* Questions10.swift in Sources */,
 				B11100002FEF2E2F001907B5 /* Questions11.swift in Sources */,
 				B11200002FEF2E2F001907B5 /* Questions12.swift in Sources */,
+				3A1100012FEF3000001907B5 /* TrailModels.swift in Sources */,
+				3A1200012FEF3000001907B5 /* TrailData.swift in Sources */,
+				3A1300012FEF3000001907B5 /* TrailViewModel.swift in Sources */,
+				3A1400012FEF3000001907B5 /* TrailMapView.swift in Sources */,
+				3A1500012FEF3000001907B5 /* TrailStudyView.swift in Sources */,
+				3A1600012FEF3000001907B5 /* TrailQuizView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
