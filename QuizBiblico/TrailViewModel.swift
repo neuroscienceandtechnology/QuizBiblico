@@ -6,18 +6,18 @@ class TrailViewModel: ObservableObject {
     @Published var characterNodeIndex: Int = 0
 
     static let nodePositions: [CGPoint] = [
-        CGPoint(x: 195, y: 2300),
-        CGPoint(x: 82,  y: 2110),
-        CGPoint(x: 308, y: 1930),
-        CGPoint(x: 82,  y: 1750),
-        CGPoint(x: 308, y: 1570),
-        CGPoint(x: 82,  y: 1390),
-        CGPoint(x: 308, y: 1210),
-        CGPoint(x: 82,  y: 1030),
-        CGPoint(x: 308, y: 850),
-        CGPoint(x: 82,  y: 670),
-        CGPoint(x: 308, y: 490),
-        CGPoint(x: 195, y: 290),
+        CGPoint(x: 195, y: 2420),  // 1: Criação - centro baixo
+        CGPoint(x: 82,  y: 2228),  // 2: Adão e Eva - esq
+        CGPoint(x: 308, y: 2042),  // 3: Noé - dir
+        CGPoint(x: 82,  y: 1858),  // 4: Babel - esq
+        CGPoint(x: 308, y: 1674),  // 5: Abraão - dir
+        CGPoint(x: 82,  y: 1490),  // 6: Isaque/Jacó - esq
+        CGPoint(x: 308, y: 1306),  // 7: José - dir
+        CGPoint(x: 82,  y: 1122),  // 8: Moisés - esq
+        CGPoint(x: 308, y: 938),   // 9: Pragas - dir
+        CGPoint(x: 82,  y: 754),   // 10: Mar Vermelho - esq
+        CGPoint(x: 308, y: 570),   // 11: Mandamentos - dir
+        CGPoint(x: 195, y: 360),   // 12: Josué - centro topo
     ]
 
     var characterPosition: CGPoint {
@@ -40,9 +40,7 @@ class TrailViewModel: ObservableObject {
     func completeNode(index: Int) {
         guard index >= 0, index < nodes.count else { return }
         nodes[index].status = .completed
-        withAnimation(.spring(response: 0.8, dampingFraction: 0.65)) {
-            characterNodeIndex = index
-        }
+        characterNodeIndex = index
         if index + 1 < nodes.count {
             nodes[index + 1].status = .available
         }
