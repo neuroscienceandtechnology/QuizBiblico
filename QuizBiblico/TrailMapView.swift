@@ -66,11 +66,9 @@ struct TrailMapView: View {
             Canvas { ctx, _ in drawBackground(&ctx) }.frame(width: mapW, height: mapH).allowsHitTesting(false)
             Canvas { ctx, _ in drawStoryArt(&ctx) }.frame(width: mapW, height: mapH).allowsHitTesting(false)
             TimelineView(.animation) { tl in
-                ZStack(alignment: .topLeading) {
-                    Canvas { ctx, _ in drawWaves(&ctx, t: tl.date.timeIntervalSinceReferenceDate) }.frame(width: mapW, height: mapH)
-                    Canvas { ctx, _ in drawParticles(&ctx, t: tl.date.timeIntervalSinceReferenceDate) }.frame(width: mapW, height: mapH)
-                }
-                .allowsHitTesting(false)
+                Canvas { ctx, _ in drawParticles(&ctx, t: tl.date.timeIntervalSinceReferenceDate) }
+                    .frame(width: mapW, height: mapH)
+                    .allowsHitTesting(false)
             }
             Canvas { ctx, _ in drawRoad(&ctx) }.frame(width: mapW, height: mapH).allowsHitTesting(false)
             biomeBanners
@@ -97,16 +95,26 @@ struct TrailMapView: View {
     // MARK: ── BACKGROUND ────────────────────────────────────────────────────
 
     private func drawBackground(_ ctx: inout GraphicsContext) {
-        // Each biome gets a rich 3-stop gradient
+        // Biome base fills
         gradStop(&ctx, y: bEden,       h: mapH-bEden,         c0:Color(hex:0x0A3A0A), c1:Color(hex:0x145A14), c2:Color(hex:0x1E7A1E))
         gradStop(&ctx, y: bFlood,      h: bEden-bFlood,       c0:Color(hex:0x060E2A), c1:Color(hex:0x0C2060), c2:Color(hex:0x163A8A))
         gradStop(&ctx, y: bPatriarchs, h: bFlood-bPatriarchs, c0:Color(hex:0x3A2208), c1:Color(hex:0x5C380E), c2:Color(hex:0x7A5018))
         gradStop(&ctx, y: bEgypt,      h: bPatriarchs-bEgypt, c0:Color(hex:0x7A3008), c1:Color(hex:0xA04010), c2:Color(hex:0xC05818))
         gradStop(&ctx, y: bSinai,      h: bEgypt-bSinai,      c0:Color(hex:0xA07010), c1:Color(hex:0xC89018), c2:Color(hex:0xE0B030))
         gradStop(&ctx, y: bCanaan,     h: bSinai-bCanaan,     c0:Color(hex:0x3CB84A), c1:Color(hex:0x52D060), c2:Color(hex:0x68E878))
-        // side vignettes
-        ctx.fill(Path(CGRect(x:0,      y:0,width:48,height:mapH)), with:.color(.black.opacity(0.30)))
-        ctx.fill(Path(CGRect(x:mapW-48,y:0,width:48,height:mapH)), with:.color(.black.opacity(0.30)))
+
+        // Smooth 280-px blend zones centered on each biome boundary.
+        // Upper color = bottom of the biome above; lower color = top of the biome below.
+        let bH: CGFloat = 280
+        blendZone(&ctx, y: bSinai,      upper: Color(hex:0x68E878), lower: Color(hex:0xA07010), h: bH)
+        blendZone(&ctx, y: bEgypt,      upper: Color(hex:0xE0B030), lower: Color(hex:0x7A3008), h: bH)
+        blendZone(&ctx, y: bPatriarchs, upper: Color(hex:0xC05818), lower: Color(hex:0x3A2208), h: bH)
+        blendZone(&ctx, y: bFlood,      upper: Color(hex:0x7A5018), lower: Color(hex:0x060E2A), h: bH)
+        blendZone(&ctx, y: bEden,       upper: Color(hex:0x163A8A), lower: Color(hex:0x0A3A0A), h: bH)
+
+        // Side vignettes
+        ctx.fill(Path(CGRect(x:0,      y:0,width:48,height:mapH)), with:.color(.black.opacity(0.28)))
+        ctx.fill(Path(CGRect(x:mapW-48,y:0,width:48,height:mapH)), with:.color(.black.opacity(0.28)))
     }
 
     private func gradStop(_ ctx: inout GraphicsContext, y:CGFloat, h:CGFloat, c0:Color, c1:Color, c2:Color) {
@@ -115,6 +123,16 @@ struct TrailMapView: View {
                  with:.linearGradient(Gradient(colors:[c0,c1]),startPoint:CGPoint(x:mapW/2,y:y),endPoint:CGPoint(x:mapW/2,y:mid)))
         ctx.fill(Path(CGRect(x:0,y:mid,width:mapW,height:h*0.5)),
                  with:.linearGradient(Gradient(colors:[c1,c2]),startPoint:CGPoint(x:mapW/2,y:mid),endPoint:CGPoint(x:mapW/2,y:y+h)))
+    }
+
+    // Draws a smooth gradient rectangle centered on `y`, fusing the colour above into the colour below.
+    private func blendZone(_ ctx: inout GraphicsContext, y: CGFloat, upper: Color, lower: Color, h: CGFloat) {
+        let top = y - h / 2
+        let grad = Gradient(colors: [upper, lower])
+        ctx.fill(Path(CGRect(x: 0, y: top, width: mapW, height: h)),
+                 with: .linearGradient(grad,
+                                       startPoint: CGPoint(x: mapW/2, y: top),
+                                       endPoint:   CGPoint(x: mapW/2, y: top + h)))
     }
 
     // MARK: ── STORY ART ──────────────────────────────────────────────────────
@@ -742,29 +760,6 @@ struct TrailMapView: View {
             leg.move(to:CGPoint(x:lx,y:2388)); leg.addLine(to:CGPoint(x:lx+4,y:2404))
             ctx.stroke(leg,with:.color(sC),lineWidth:2.5)
         }
-    }
-
-    // MARK: ── ANIMATED WAVES ────────────────────────────────────────────────
-
-    private func drawWaves(_ ctx: inout GraphicsContext, t: Double) {
-        waveBand(&ctx, y:bSinai,      topC:Color(hex:0xD9A81A), amp:22, period:0.028, t:t, speed:0.50)
-        waveBand(&ctx, y:bEgypt,      topC:Color(hex:0xC75A10), amp:24, period:0.025, t:t, speed:0.42)
-        waveBand(&ctx, y:bPatriarchs, topC:Color(hex:0x8C6030), amp:26, period:0.023, t:t, speed:0.38)
-        waveBand(&ctx, y:bFlood,      topC:Color(hex:0x10348C), amp:28, period:0.026, t:t, speed:0.44)
-        waveBand(&ctx, y:bEden,       topC:Color(hex:0x0D6B0D), amp:24, period:0.030, t:t, speed:0.46)
-    }
-
-    private func waveBand(_ ctx: inout GraphicsContext, y:CGFloat, topC:Color, amp:Double, period:Double, t:Double, speed:Double) {
-        var path = Path()
-        path.move(to:CGPoint(x:0,y:y))
-        var x: Double = 0
-        while x <= Double(mapW)+4 {
-            let wy = Double(y)+sin(x*period+t*speed)*amp+cos(x*period*1.7+t*speed*0.6)*amp*0.38
-            path.addLine(to:CGPoint(x:x,y:wy)); x += 3
-        }
-        path.addLine(to:CGPoint(x:mapW,y:y-66)); path.addLine(to:CGPoint(x:0,y:y-66))
-        path.closeSubpath()
-        ctx.fill(path,with:.color(topC.opacity(0.70)))
     }
 
     // MARK: ── ANIMATED PARTICLES ────────────────────────────────────────────
