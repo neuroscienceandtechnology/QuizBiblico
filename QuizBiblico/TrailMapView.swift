@@ -3,15 +3,15 @@ import SwiftUI
 // MARK: - Constants
 
 private let mapW: CGFloat = 390
-private let mapH: CGFloat = 2600
-private let NR:   CGFloat = 46
+private let mapH: CGFloat = 3200
+private let NR:   CGFloat = 50
 
 private let bCanaan:     CGFloat = 0
-private let bSinai:      CGFloat = 450
-private let bEgypt:      CGFloat = 760
-private let bPatriarchs: CGFloat = 1190
-private let bFlood:      CGFloat = 1680
-private let bEden:       CGFloat = 2145
+private let bSinai:      CGFloat = 554
+private let bEgypt:      CGFloat = 935
+private let bPatriarchs: CGFloat = 1465
+private let bFlood:      CGFloat = 2068
+private let bEden:       CGFloat = 2639
 
 // MARK: - Main View
 
@@ -19,6 +19,8 @@ struct TrailMapView: View {
     @StateObject private var vm = TrailViewModel()
     @State private var selectedNodeIndex: Int? = nil
     @State private var charBob: CGFloat = 0
+    @State private var isWalking: Bool = false
+    @State private var walkFacingRight: Bool = true
 
     var body: some View {
         NavigationStack {
@@ -70,7 +72,6 @@ struct TrailMapView: View {
                     .frame(width: mapW, height: mapH)
                     .allowsHitTesting(false)
             }
-            Canvas { ctx, _ in drawRoad(&ctx) }.frame(width: mapW, height: mapH).allowsHitTesting(false)
             biomeBanners
             nodesLayer
             charLayer
@@ -112,9 +113,7 @@ struct TrailMapView: View {
         blendZone(&ctx, y: bFlood,      upper: Color(hex:0x7A5018), lower: Color(hex:0x060E2A), h: bH)
         blendZone(&ctx, y: bEden,       upper: Color(hex:0x163A8A), lower: Color(hex:0x0A3A0A), h: bH)
 
-        // Side vignettes
-        ctx.fill(Path(CGRect(x:0,      y:0,width:48,height:mapH)), with:.color(.black.opacity(0.28)))
-        ctx.fill(Path(CGRect(x:mapW-48,y:0,width:48,height:mapH)), with:.color(.black.opacity(0.28)))
+        drawDirtPath(&ctx)
     }
 
     private func gradStop(_ ctx: inout GraphicsContext, y:CGFloat, h:CGFloat, c0:Color, c1:Color, c2:Color) {
@@ -149,17 +148,17 @@ struct TrailMapView: View {
     // ── Canaan: uvas gigantes + muros de Jericó + flores + frutos ──
 
     private func drawCanaanArt(_ ctx: inout GraphicsContext) {
-        drawFlowers(&ctx, zone: 0..<450)
-        drawGrapeCluster(&ctx, cx: 318, cy: 155)
-        drawFruitTree(&ctx, cx: 315, cy: 415)
-        drawJerichoWalls(&ctx, cx: 88, cy: 305)
+        drawFlowers(&ctx, zone: 0..<554)
+        drawGrapeCluster(&ctx, cx: 318, cy: 191)
+        drawFruitTree(&ctx, cx: 315, cy: 511)
+        drawJerichoWalls(&ctx, cx: 88, cy: 375)
     }
 
     private func drawFlowers(_ ctx: inout GraphicsContext, zone: Range<Int>) {
         let seeds: [(Double,Double,UInt32)] = [
-            (70,50,0xFF66AA),(280,80,0xFFCC33),(340,230,0xFF4488),
-            (55,170,0xFFAA22),(350,350,0xFF66AA),(60,390,0x88FF44),
-            (310,310,0xFFDD00),(245,420,0xFF88CC),(170,35,0xAAFF44),
+            (70,62,0xFF66AA),(280,98,0xFFCC33),(340,283,0xFF4488),
+            (55,209,0xFFAA22),(350,431,0xFF66AA),(60,480,0x88FF44),
+            (310,381,0xFFDD00),(245,517,0xFF88CC),(170,43,0xAAFF44),
         ]
         for (fx,fy,col) in seeds {
             guard Int(fy) >= zone.lowerBound && Int(fy) < zone.upperBound else { continue }
@@ -250,7 +249,7 @@ struct TrailMapView: View {
 
     private func drawSinaiArt(_ ctx: inout GraphicsContext) {
         drawMountainSinai(&ctx)
-        drawStoneTabs(&ctx, cx: 195, cy: 496)
+        drawStoneTabs(&ctx, cx: 195, cy: 611)
         drawPartedSea(&ctx)
         drawLightningBolts(&ctx)
     }
@@ -294,7 +293,7 @@ struct TrailMapView: View {
     }
 
     private func drawPartedSea(_ ctx: inout GraphicsContext) {
-        let cy: Double = 722; let cx: Double = 195
+        let cy: Double = 889; let cx: Double = 195
         let seaC  = Color(hex:0x1252A0)
         let foamC = Color(hex:0x88CCFF)
         let sandC = Color(hex:0xC8A870)
@@ -388,17 +387,17 @@ struct TrailMapView: View {
         let rc  = Color(hex:0xBB0000)
         let rc2 = Color(hex:0xFF4444)
         var river = Path()
-        river.move(to:CGPoint(x:0,y:1008))
-        river.addCurve(to:CGPoint(x:mapW,y:998),
-                       control1:CGPoint(x:110,y:975),
-                       control2:CGPoint(x:280,y:1028))
+        river.move(to:CGPoint(x:0,y:1241))
+        river.addCurve(to:CGPoint(x:mapW,y:1228),
+                       control1:CGPoint(x:110,y:1200),
+                       control2:CGPoint(x:280,y:1265))
         ctx.stroke(river,with:.color(rc.opacity(0.80)), lineWidth:34)
         ctx.stroke(river,with:.color(rc2.opacity(0.38)),lineWidth:14)
         ctx.stroke(river,with:.color(Color(hex:0xFF8888).opacity(0.25)),lineWidth:5)
     }
 
     private func drawFrogs(_ ctx: inout GraphicsContext) {
-        for (fx,fy) in [(62.0,868.0),(128.0,852.0),(298.0,864.0),(340.0,876.0),(188.0,882.0)] {
+        for (fx,fy) in [(62.0,1069.0),(128.0,1049.0),(298.0,1065.0),(340.0,1079.0),(188.0,1086.0)] {
             drawFrog(&ctx, cx:fx, cy:fy)
         }
     }
@@ -418,7 +417,7 @@ struct TrailMapView: View {
     }
 
     private func drawBurningBushStatic(_ ctx: inout GraphicsContext) {
-        let cx = 82.0; let cy = 1100.0
+        let cx = 82.0; let cy = 1354.0
         let bC = Color(hex:0x5A3210)
         for (bx,by) in [(cx-16,cy),(cx,cy-12),(cx+16,cy),(cx-8,cy-22),(cx+8,cy-22)] {
             ctx.fill(Path(ellipseIn:CGRect(x:bx-16,y:by-14,width:32,height:28)),with:.color(bC.opacity(0.72)))
@@ -428,11 +427,10 @@ struct TrailMapView: View {
     private func drawEgyptPylons(_ ctx: inout GraphicsContext) {
         let pC = Color(hex:0x7A4E18)
         let lC = Color(hex:0xC89040)
-        for (px,pw,ph) in [(42.0,52.0,120.0),(296.0,58.0,100.0)] {
-            // Tapered pylon: wide at base, narrow at top
+        for (px,pw,ph) in [(42.0,62.0,148.0),(286.0,68.0,124.0)] {
             var py2 = Path()
-            py2.move(to:CGPoint(x:px,      y:bPatriarchs-4))
-            py2.addLine(to:CGPoint(x:px+8, y:bPatriarchs-4-ph))
+            py2.move(to:CGPoint(x:px,       y:bPatriarchs-4))
+            py2.addLine(to:CGPoint(x:px+8,  y:bPatriarchs-4-ph))
             py2.addLine(to:CGPoint(x:px+pw-8,y:bPatriarchs-4-ph))
             py2.addLine(to:CGPoint(x:px+pw, y:bPatriarchs-4))
             py2.closeSubpath()
@@ -452,7 +450,7 @@ struct TrailMapView: View {
     }
 
     private func drawJosephDream(_ ctx: inout GraphicsContext) {
-        let cx = 195.0; let cy = 1240.0
+        let cx = 195.0; let cy = 1527.0
         // Sun glow rings
         let sunC  = Color(hex:0xFFCC00)
         let glowC = Color(hex:0xFFAA00)
@@ -494,7 +492,7 @@ struct TrailMapView: View {
     }
 
     private func drawJacobLadder(_ ctx: inout GraphicsContext) {
-        let x1 = 318.0; let y1 = 1492.0; let x2 = 338.0; let y2 = 1295.0
+        let x1 = 318.0; let y1 = 1836.0; let x2 = 338.0; let y2 = 1595.0
         let ladderC = Color(hex:0xC8A060)
         let glowC   = Color(hex:0xFFEEAA)
         // Glow at top
@@ -526,7 +524,7 @@ struct TrailMapView: View {
 
     private func drawAbrahamTents(_ ctx: inout GraphicsContext) {
         let tC = Color(hex:0x8B5E20)
-        for (tx,ty,tw) in [(80.0,1650.0,60.0),(155.0,1658.0,44.0)] {
+        for (tx,ty,tw) in [(80.0,2031.0,60.0),(155.0,2041.0,44.0)] {
             var tent = Path()
             tent.move(to:CGPoint(x:tx,     y:ty))
             tent.addLine(to:CGPoint(x:tx+tw/2,y:ty-35))
@@ -539,7 +537,7 @@ struct TrailMapView: View {
 
     private func drawWheatSheaves(_ ctx: inout GraphicsContext) {
         let wC = Color(hex:0xE0B840)
-        for (wx,wy) in [(265.0,1288.0),(290.0,1292.0),(315.0,1285.0)] {
+        for (wx,wy) in [(265.0,1585.0),(290.0,1590.0),(315.0,1582.0)] {
             for i in -2...2 {
                 var stalk = Path()
                 stalk.move(to:CGPoint(x:wx+Double(i)*4,y:wy))
@@ -566,7 +564,7 @@ struct TrailMapView: View {
     }
 
     private func drawBabelTower(_ ctx: inout GraphicsContext) {
-        let cx = 195.0; let base = 1858.0
+        let cx = 195.0; let base = 2287.0
         let bC  = Color(hex:0x8B6914)
         let lC  = Color(hex:0xC89A2A)
         let sdC = Color.black.opacity(0.22)
@@ -589,7 +587,7 @@ struct TrailMapView: View {
     }
 
     private func drawDetailedArk(_ ctx: inout GraphicsContext) {
-        let cx = 195.0; let cy = 2060.0
+        let cx = 195.0; let cy = 2535.0
         let hC = Color(hex:0x6B3C10)
         let wC = Color(hex:0x8B4E18)
         let rC = Color(hex:0x5A2E08)
@@ -624,7 +622,7 @@ struct TrailMapView: View {
     }
 
     private func drawRainbow(_ ctx: inout GraphicsContext) {
-        let cx = 195.0; let cy = 1948.0
+        let cx = 195.0; let cy = 2398.0
         let arcData: [(UInt32, Double)] = [
             (0xFF2200,128),(0xFF8800,115),(0xFFDD00,102),
             (0x22CC00,89),(0x0066FF,76),(0x8800CC,63)
@@ -638,7 +636,7 @@ struct TrailMapView: View {
     }
 
     private func drawDove(_ ctx: inout GraphicsContext) {
-        let dx = 310.0; let dy = 1990.0
+        let dx = 310.0; let dy = 2451.0
         let dC = Color.white.opacity(0.85)
         var d = Path()
         d.move(to:CGPoint(x:dx,  y:dy))
@@ -676,7 +674,7 @@ struct TrailMapView: View {
     }
 
     private func drawCreationLight(_ ctx: inout GraphicsContext) {
-        let cx = 195.0; let cy = 2488.0
+        let cx = 195.0; let cy = 3063.0
         let lC = Color(hex:0xFFEEAA)
         // Radial glow
         for ring in 0..<6 {
@@ -696,7 +694,7 @@ struct TrailMapView: View {
     }
 
     private func drawTreeOfKnowledge(_ ctx: inout GraphicsContext) {
-        let cx = 195.0; let cy = 2295.0
+        let cx = 195.0; let cy = 2825.0
         let trunkC = Color(hex:0x5C2E00)
         let leaf1C = Color(hex:0x0E5A0A)
         let leaf2C = Color(hex:0x168014)
@@ -734,30 +732,30 @@ struct TrailMapView: View {
     private func drawSerpent(_ ctx: inout GraphicsContext) {
         let sC = Color(hex:0x2A5A10)
         var s = Path()
-        s.move(to:CGPoint(x:220,y:2215))
-        s.addCurve(to:CGPoint(x:228,y:2248),
-                   control1:CGPoint(x:235,y:2222),control2:CGPoint(x:238,y:2242))
-        s.addCurve(to:CGPoint(x:210,y:2268),
-                   control1:CGPoint(x:218,y:2254),control2:CGPoint(x:210,y:2264))
-        s.addCurve(to:CGPoint(x:225,y:2288),
-                   control1:CGPoint(x:210,y:2272),control2:CGPoint(x:222,y:2283))
+        s.move(to:CGPoint(x:220,y:2726))
+        s.addCurve(to:CGPoint(x:228,y:2767),
+                   control1:CGPoint(x:235,y:2733),control2:CGPoint(x:238,y:2761))
+        s.addCurve(to:CGPoint(x:210,y:2791),
+                   control1:CGPoint(x:218,y:2775),control2:CGPoint(x:210,y:2787))
+        s.addCurve(to:CGPoint(x:225,y:2816),
+                   control1:CGPoint(x:210,y:2795),control2:CGPoint(x:222,y:2811))
         ctx.stroke(s,with:.color(sC.opacity(0.75)),lineWidth:6)
         // Head
-        ctx.fill(Path(ellipseIn:CGRect(x:215,y:2208,width:14,height:10)),with:.color(sC.opacity(0.80)))
+        ctx.fill(Path(ellipseIn:CGRect(x:215,y:2717,width:14,height:10)),with:.color(sC.opacity(0.80)))
         // Forked tongue
         var t = Path()
-        t.move(to:CGPoint(x:222,y:2208))
-        t.addLine(to:CGPoint(x:219,y:2201)); t.move(to:CGPoint(x:222,y:2208)); t.addLine(to:CGPoint(x:225,y:2201))
+        t.move(to:CGPoint(x:222,y:2717))
+        t.addLine(to:CGPoint(x:219,y:2709)); t.move(to:CGPoint(x:222,y:2717)); t.addLine(to:CGPoint(x:225,y:2709))
         ctx.stroke(t,with:.color(Color(hex:0xCC2200).opacity(0.75)),lineWidth:1.5)
     }
 
     private func drawAdamEve(_ ctx: inout GraphicsContext) {
         let sC = Color.black.opacity(0.40)
         for (fx,lx) in [(168.0,172.0),(222.0,218.0)] {
-            ctx.fill(Path(ellipseIn:CGRect(x:fx-5,y:2360,width:10,height:10)),with:.color(sC))
-            ctx.fill(Path(CGRect(x:fx-3,y:2370,width:6,height:18)),with:.color(sC))
-            var leg = Path(); leg.move(to:CGPoint(x:lx,y:2388)); leg.addLine(to:CGPoint(x:lx-4,y:2404))
-            leg.move(to:CGPoint(x:lx,y:2388)); leg.addLine(to:CGPoint(x:lx+4,y:2404))
+            ctx.fill(Path(ellipseIn:CGRect(x:fx-5,y:2905,width:10,height:10)),with:.color(sC))
+            ctx.fill(Path(CGRect(x:fx-3,y:2915,width:6,height:18)),with:.color(sC))
+            var leg = Path(); leg.move(to:CGPoint(x:lx,y:2933)); leg.addLine(to:CGPoint(x:lx-4,y:2949))
+            leg.move(to:CGPoint(x:lx,y:2933)); leg.addLine(to:CGPoint(x:lx+4,y:2949))
             ctx.stroke(leg,with:.color(sC),lineWidth:2.5)
         }
     }
@@ -797,7 +795,7 @@ struct TrailMapView: View {
     }
 
     private func drawBushFireAnim(_ ctx: inout GraphicsContext, t: Double) {
-        let cx = 82.0; let cy = 1086.0
+        let cx = 82.0; let cy = 1337.0
         let fC = Color(hex:0xFF6600); let yC = Color(hex:0xFFDD00)
         for fl in 0..<5 {
             let fd = Double(fl)
@@ -847,22 +845,28 @@ struct TrailMapView: View {
         }
     }
 
-    // MARK: ── ROAD ───────────────────────────────────────────────────────────
+    // MARK: ── DIRT PATH (drawn inside background) ───────────────────────────
 
-    private func drawRoad(_ ctx: inout GraphicsContext) {
+    private func drawDirtPath(_ ctx: inout GraphicsContext) {
         let pts = TrailViewModel.nodePositions
-        let dR = Color(hex:0xE0B844); let pR = Color(hex:0x9E8560)
-        let dI = Color(hex:0xFFDF80); let pI = Color(hex:0xBFAA82)
+        let doneEdge = Color(hex:0xB89050)
+        let doneCenter = Color(hex:0xD4A860)
+        let pendEdge = Color(hex:0x9A7840)
+        let pendCenter = Color(hex:0xB89050)
         for i in 0..<pts.count-1 {
             let a = pts[i]; let b = pts[i+1]
-            let ctrl = CGPoint(x:(a.x+b.x)*0.5, y:min(a.y,b.y)-30)
+            let ctrl = CGPoint(x:(a.x+b.x)*0.5, y:min(a.y,b.y)-20)
             let done = i < vm.completedCount
-            let seg  = quadP(a,ctrl,b)
-            ctx.stroke(seg,with:.color(.black.opacity(0.40)),style:StrokeStyle(lineWidth:28,lineCap:.round))
-            ctx.stroke(seg,with:.color(done ? dR : pR), style:StrokeStyle(lineWidth:22,lineCap:.round))
-            ctx.stroke(seg,with:.color(done ? dI : pI), style:StrokeStyle(lineWidth:12,lineCap:.round))
-            ctx.stroke(seg,with:.color(.white.opacity(done ? 0.85 : 0.32)),
-                       style:StrokeStyle(lineWidth:2.5,lineCap:.round,dash:[10,13]))
+            let seg  = quadP(a, ctrl, b)
+            ctx.stroke(seg, with:.color(.black.opacity(0.18)), style:StrokeStyle(lineWidth:13,lineCap:.round))
+            ctx.stroke(seg, with:.color(done ? doneEdge : pendEdge),
+                       style:StrokeStyle(lineWidth:11, lineCap:.round))
+            ctx.stroke(seg, with:.color(done ? doneCenter : pendCenter),
+                       style:StrokeStyle(lineWidth:6, lineCap:.round))
+            if done {
+                ctx.stroke(seg, with:.color(Color(hex:0xE8C878).opacity(0.60)),
+                           style:StrokeStyle(lineWidth:2, lineCap:.round, dash:[6,18]))
+            }
         }
     }
 
@@ -909,15 +913,33 @@ struct TrailMapView: View {
 
     private var charLayer: some View {
         ZStack {
-            Ellipse().fill(.black.opacity(0.22)).frame(width:44,height:9).blur(radius:4).offset(y:NR+12)
-            Image(systemName:"arrowtriangle.down.fill").font(.system(size:11,weight:.black))
-                .foregroundColor(.white).shadow(color:.black.opacity(0.45),radius:2)
-                .offset(y:-(NR+22)+charBob)
-            Text("🧑").font(.system(size:40))
-                .shadow(color:.black.opacity(0.40),radius:4,x:1,y:3).offset(y:charBob)
+            Ellipse()
+                .fill(.black.opacity(0.20))
+                .frame(width:48, height:10)
+                .blur(radius:4)
+                .offset(y: 38)
+            Image(systemName:"arrowtriangle.down.fill")
+                .font(.system(size:11, weight:.black))
+                .foregroundColor(.white)
+                .shadow(color:.black.opacity(0.45), radius:2)
+                .offset(y: -(NR + 22) + charBob)
+            ShepherdFigure(isWalking: isWalking, facingRight: walkFacingRight)
+                .offset(y: charBob * 0.5)
         }
-        .animation(.spring(response:0.85,dampingFraction:0.62),value:vm.characterNodeIndex)
-        .position(vm.characterPosition).id("char")
+        .animation(.spring(response:0.85, dampingFraction:0.62), value:vm.characterNodeIndex)
+        .position(vm.characterPosition)
+        .id("char")
+        .onChange(of: vm.characterNodeIndex) { newIdx in
+            let pts = TrailViewModel.nodePositions
+            let prevIdx = max(0, newIdx - 1)
+            if prevIdx < pts.count && newIdx < pts.count {
+                walkFacingRight = pts[newIdx].x >= pts[prevIdx].x
+            }
+            isWalking = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.6) {
+                isWalking = false
+            }
+        }
     }
 }
 
@@ -979,6 +1001,150 @@ struct TrailNodeBtn: View {
             guard node.status == .available else { return }
             withAnimation(.easeOut(duration:1.5).repeatForever(autoreverses:false)) { ringScale=1.60; ringAlpha=0 }
         }
+    }
+}
+
+// MARK: - Shepherd Character
+
+struct ShepherdFigure: View {
+    let isWalking: Bool
+    let facingRight: Bool
+
+    var body: some View {
+        if isWalking {
+            TimelineView(.animation) { tl in
+                ShepherdCanvas(t: tl.date.timeIntervalSinceReferenceDate, facingRight: facingRight)
+            }
+        } else {
+            ShepherdCanvas(t: 0, facingRight: facingRight)
+        }
+    }
+}
+
+struct ShepherdCanvas: View {
+    let t: Double
+    let facingRight: Bool
+
+    var body: some View {
+        Canvas { ctx, size in drawShepherd(&ctx, size: size) }
+            .frame(width: 52, height: 82)
+    }
+
+    private func drawShepherd(_ ctx: inout GraphicsContext, size: CGSize) {
+        let cx = size.width / 2
+        let floor = size.height - 6
+        let walkPhase = t > 0 ? sin(t * 5.5) : 0.0
+        let bodyBob: Double = t > 0 ? abs(sin(t * 5.5)) * 1.5 : 0
+        let flip: Double = facingRight ? 1 : -1
+        let sx = cx + 16 * flip
+
+        // Staff shadow
+        var staffShadow = Path()
+        staffShadow.move(to: CGPoint(x: sx + 1, y: floor - 50 + bodyBob + 1))
+        staffShadow.addLine(to: CGPoint(x: sx + 4 * flip + 1, y: floor + 1))
+        ctx.stroke(staffShadow, with: .color(.black.opacity(0.18)), lineWidth: 3)
+
+        // Staff
+        var staff = Path()
+        staff.move(to: CGPoint(x: sx, y: floor - 50 + bodyBob))
+        staff.addLine(to: CGPoint(x: sx + 4 * flip, y: floor))
+        ctx.stroke(staff, with: .color(Color(red:0.44, green:0.24, blue:0.06)), lineWidth: 3)
+
+        // Staff crook
+        var crook = Path()
+        crook.move(to: CGPoint(x: sx, y: floor - 50 + bodyBob))
+        crook.addQuadCurve(
+            to:      CGPoint(x: sx + 7 * flip, y: floor - 56 + bodyBob),
+            control: CGPoint(x: sx + 1 * flip, y: floor - 58 + bodyBob)
+        )
+        ctx.stroke(crook, with: .color(Color(red:0.44, green:0.24, blue:0.06)), lineWidth: 2.5)
+
+        // Robe shadow
+        var robeShadow = Path()
+        robeShadow.move(to:    CGPoint(x: cx - 10 + 1, y: floor - 40 + bodyBob))
+        robeShadow.addLine(to: CGPoint(x: cx + 10 + 1, y: floor - 40 + bodyBob))
+        robeShadow.addLine(to: CGPoint(x: cx + 14 + 1, y: floor + 2))
+        robeShadow.addLine(to: CGPoint(x: cx - 14 + 1, y: floor + 2))
+        robeShadow.closeSubpath()
+        ctx.fill(robeShadow, with: .color(.black.opacity(0.14)))
+
+        // Robe
+        var robe = Path()
+        robe.move(to:    CGPoint(x: cx - 10, y: floor - 40 + bodyBob))
+        robe.addLine(to: CGPoint(x: cx + 10, y: floor - 40 + bodyBob))
+        robe.addLine(to: CGPoint(x: cx + 14, y: floor))
+        robe.addLine(to: CGPoint(x: cx - 14, y: floor))
+        robe.closeSubpath()
+        ctx.fill(robe, with: .color(Color(red:0.94, green:0.88, blue:0.72).opacity(0.96)))
+
+        // Robe stripe
+        var stripe = Path()
+        stripe.move(to:    CGPoint(x: cx - 2, y: floor - 40 + bodyBob))
+        stripe.addLine(to: CGPoint(x: cx + 2, y: floor - 40 + bodyBob))
+        stripe.addLine(to: CGPoint(x: cx + 3, y: floor))
+        stripe.addLine(to: CGPoint(x: cx - 3, y: floor))
+        stripe.closeSubpath()
+        ctx.fill(stripe, with: .color(Color(red:0.55, green:0.30, blue:0.10).opacity(0.20)))
+
+        // Belt
+        ctx.fill(
+            Path(CGRect(x: cx - 10, y: floor - 27 + bodyBob, width: 20, height: 3.5)),
+            with: .color(Color(red:0.48, green:0.26, blue:0.08).opacity(0.75))
+        )
+
+        // Feet (walk animation)
+        let lFootX = cx - 4 + walkPhase * 5
+        let rFootX = cx + 4 - walkPhase * 5
+        for fx in [lFootX, rFootX] {
+            ctx.fill(
+                Path(CGRect(x: fx - 4, y: floor - 3, width: 9, height: 4.5)),
+                with: .color(Color(red:0.68, green:0.46, blue:0.28).opacity(0.90))
+            )
+        }
+
+        // Neck
+        ctx.fill(
+            Path(ellipseIn: CGRect(x: cx - 4, y: floor - 52 + bodyBob, width: 8, height: 10)),
+            with: .color(Color(red:0.82, green:0.60, blue:0.42).opacity(0.95))
+        )
+
+        // Head
+        ctx.fill(
+            Path(ellipseIn: CGRect(x: cx - 8, y: floor - 66 + bodyBob, width: 16, height: 16)),
+            with: .color(Color(red:0.82, green:0.60, blue:0.42).opacity(0.95))
+        )
+
+        // Headcloth drape (keffiyeh)
+        var cloth = Path()
+        cloth.move(to:    CGPoint(x: cx - 10, y: floor - 65 + bodyBob))
+        cloth.addLine(to: CGPoint(x: cx + 10, y: floor - 65 + bodyBob))
+        cloth.addLine(to: CGPoint(x: cx + 12, y: floor - 57 + bodyBob))
+        cloth.addLine(to: CGPoint(x: cx + 14, y: floor - 47 + bodyBob))
+        cloth.addLine(to: CGPoint(x: cx - 14, y: floor - 47 + bodyBob))
+        cloth.addLine(to: CGPoint(x: cx - 12, y: floor - 57 + bodyBob))
+        cloth.closeSubpath()
+        ctx.fill(cloth, with: .color(Color(red:0.86, green:0.78, blue:0.64).opacity(0.92)))
+
+        // Headcloth top
+        ctx.fill(
+            Path(ellipseIn: CGRect(x: cx - 9, y: floor - 72 + bodyBob, width: 18, height: 10)),
+            with: .color(Color(red:0.80, green:0.70, blue:0.54).opacity(0.90))
+        )
+
+        // Beard
+        var beard = Path()
+        beard.move(to:    CGPoint(x: cx - 5, y: floor - 54 + bodyBob))
+        beard.addLine(to: CGPoint(x: cx + 5, y: floor - 54 + bodyBob))
+        beard.addLine(to: CGPoint(x: cx + 4, y: floor - 48 + bodyBob))
+        beard.addLine(to: CGPoint(x: cx - 4, y: floor - 48 + bodyBob))
+        beard.closeSubpath()
+        ctx.fill(beard, with: .color(Color(red:0.55, green:0.38, blue:0.20).opacity(0.80)))
+
+        // Arm holding staff
+        var arm = Path()
+        arm.move(to:    CGPoint(x: cx + 8 * flip, y: floor - 34 + bodyBob))
+        arm.addLine(to: CGPoint(x: sx - 1 * flip, y: floor - 22 + bodyBob))
+        ctx.stroke(arm, with: .color(Color(red:0.82, green:0.60, blue:0.42).opacity(0.85)), lineWidth: 3.5)
     }
 }
 

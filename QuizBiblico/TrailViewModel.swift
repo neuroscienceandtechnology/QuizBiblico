@@ -6,18 +6,18 @@ class TrailViewModel: ObservableObject {
     @Published var characterNodeIndex: Int = 0
 
     static let nodePositions: [CGPoint] = [
-        CGPoint(x: 195, y: 2420),  // 1: Criação - centro baixo
-        CGPoint(x: 82,  y: 2228),  // 2: Adão e Eva - esq
-        CGPoint(x: 308, y: 2042),  // 3: Noé - dir
-        CGPoint(x: 82,  y: 1858),  // 4: Babel - esq
-        CGPoint(x: 308, y: 1674),  // 5: Abraão - dir
-        CGPoint(x: 82,  y: 1490),  // 6: Isaque/Jacó - esq
-        CGPoint(x: 308, y: 1306),  // 7: José - dir
-        CGPoint(x: 82,  y: 1122),  // 8: Moisés - esq
-        CGPoint(x: 308, y: 938),   // 9: Pragas - dir
-        CGPoint(x: 82,  y: 754),   // 10: Mar Vermelho - esq
-        CGPoint(x: 308, y: 570),   // 11: Mandamentos - dir
-        CGPoint(x: 195, y: 360),   // 12: Josué - centro topo
+        CGPoint(x: 195, y: 2978),  // 1: Criação
+        CGPoint(x: 82,  y: 2742),  // 2: Adão e Eva
+        CGPoint(x: 308, y: 2514),  // 3: Noé
+        CGPoint(x: 82,  y: 2287),  // 4: Babel
+        CGPoint(x: 308, y: 2060),  // 5: Abraão
+        CGPoint(x: 82,  y: 1834),  // 6: Isaque/Jacó
+        CGPoint(x: 308, y: 1607),  // 7: José
+        CGPoint(x: 82,  y: 1381),  // 8: Moisés
+        CGPoint(x: 308, y: 1154),  // 9: Pragas
+        CGPoint(x: 82,  y: 928),   // 10: Mar Vermelho
+        CGPoint(x: 308, y: 702),   // 11: Mandamentos
+        CGPoint(x: 195, y: 443),   // 12: Josué
     ]
 
     var characterPosition: CGPoint {
