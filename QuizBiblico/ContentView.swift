@@ -5,12 +5,14 @@ struct ContentView: View {
         TabView {
             HomeView()
                 .tabItem { Label("Início", systemImage: "house.fill") }
-            TrailMapView()
+            TrailSelectionView()
                 .tabItem { Label("Trilha", systemImage: "map.fill") }
             QuizMenuView()
                 .tabItem { Label("Quiz", systemImage: "questionmark.circle.fill") }
             BibleView()
                 .tabItem { Label("Bíblia", systemImage: "book.fill") }
+            AudioBibleView()
+                .tabItem { Label("Áudio", systemImage: "headphones") }
             DailyChallengeView()
                 .tabItem { Label("Desafio", systemImage: "star.fill") }
             StatsView()

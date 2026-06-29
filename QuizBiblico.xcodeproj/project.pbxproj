@@ -47,6 +47,13 @@
 		3A1400012FEF3000001907B5 /* TrailMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1400002FEF3000001907B5 /* TrailMapView.swift */; };
 		3A1500012FEF3000001907B5 /* TrailStudyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1500002FEF3000001907B5 /* TrailStudyView.swift */; };
 		3A1600012FEF3000001907B5 /* TrailQuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1600002FEF3000001907B5 /* TrailQuizView.swift */; };
+		3A1700012FEF3000001907B5 /* TrailEvangelhoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1700002FEF3000001907B5 /* TrailEvangelhoData.swift */; };
+		3A1800012FEF3000001907B5 /* TrailEvangelhoMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1800002FEF3000001907B5 /* TrailEvangelhoMapView.swift */; };
+		3A1900012FEF3000001907B5 /* TrailSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1900002FEF3000001907B5 /* TrailSelectionView.swift */; };
+		3A2000012FEF3000001907B5 /* AudioBibleConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2000002FEF3000001907B5 /* AudioBibleConfig.swift */; };
+		3A2100012FEF3000001907B5 /* AudioBibleService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2100002FEF3000001907B5 /* AudioBibleService.swift */; };
+		3A2200012FEF3000001907B5 /* AudioBibleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2200002FEF3000001907B5 /* AudioBibleViewModel.swift */; };
+		3A2300012FEF3000001907B5 /* AudioBibleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2300002FEF3000001907B5 /* AudioBibleView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,6 +117,13 @@
 		3A1400002FEF3000001907B5 /* TrailMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailMapView.swift; sourceTree = "<group>"; };
 		3A1500002FEF3000001907B5 /* TrailStudyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailStudyView.swift; sourceTree = "<group>"; };
 		3A1600002FEF3000001907B5 /* TrailQuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailQuizView.swift; sourceTree = "<group>"; };
+		3A1700002FEF3000001907B5 /* TrailEvangelhoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailEvangelhoData.swift; sourceTree = "<group>"; };
+		3A1800002FEF3000001907B5 /* TrailEvangelhoMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailEvangelhoMapView.swift; sourceTree = "<group>"; };
+		3A1900002FEF3000001907B5 /* TrailSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailSelectionView.swift; sourceTree = "<group>"; };
+		3A2000002FEF3000001907B5 /* AudioBibleConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioBibleConfig.swift; sourceTree = "<group>"; };
+		3A2100002FEF3000001907B5 /* AudioBibleService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioBibleService.swift; sourceTree = "<group>"; };
+		3A2200002FEF3000001907B5 /* AudioBibleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioBibleViewModel.swift; sourceTree = "<group>"; };
+		3A2300002FEF3000001907B5 /* AudioBibleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioBibleView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,6 +209,13 @@
 				3A1400002FEF3000001907B5 /* TrailMapView.swift */,
 				3A1500002FEF3000001907B5 /* TrailStudyView.swift */,
 				3A1600002FEF3000001907B5 /* TrailQuizView.swift */,
+				3A1700002FEF3000001907B5 /* TrailEvangelhoData.swift */,
+				3A1800002FEF3000001907B5 /* TrailEvangelhoMapView.swift */,
+				3A1900002FEF3000001907B5 /* TrailSelectionView.swift */,
+				3A2000002FEF3000001907B5 /* AudioBibleConfig.swift */,
+				3A2100002FEF3000001907B5 /* AudioBibleService.swift */,
+				3A2200002FEF3000001907B5 /* AudioBibleViewModel.swift */,
+				3A2300002FEF3000001907B5 /* AudioBibleView.swift */,
 				2F9E4CF82FEF2E2E001907B5 /* Assets.xcassets */,
 				2F9E4CFA2FEF2E2E001907B5 /* Preview Content */,
 			);
@@ -391,6 +412,13 @@
 				3A1400012FEF3000001907B5 /* TrailMapView.swift in Sources */,
 				3A1500012FEF3000001907B5 /* TrailStudyView.swift in Sources */,
 				3A1600012FEF3000001907B5 /* TrailQuizView.swift in Sources */,
+				3A1700012FEF3000001907B5 /* TrailEvangelhoData.swift in Sources */,
+				3A1800012FEF3000001907B5 /* TrailEvangelhoMapView.swift in Sources */,
+				3A1900012FEF3000001907B5 /* TrailSelectionView.swift in Sources */,
+				3A2000012FEF3000001907B5 /* AudioBibleConfig.swift in Sources */,
+				3A2100012FEF3000001907B5 /* AudioBibleService.swift in Sources */,
+				3A2200012FEF3000001907B5 /* AudioBibleViewModel.swift in Sources */,
+				3A2300012FEF3000001907B5 /* AudioBibleView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

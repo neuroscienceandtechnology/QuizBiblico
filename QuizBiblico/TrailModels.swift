@@ -1,5 +1,10 @@
 import Foundation
 
+enum TrailID: String {
+    case genesis
+    case evangelhos
+}
+
 enum TrailNodeStatus: String, Codable {
     case locked
     case available

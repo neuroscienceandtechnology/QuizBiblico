@@ -5,19 +5,21 @@ class TrailViewModel: ObservableObject {
     @Published var nodes: [TrailNodeData]
     @Published var characterNodeIndex: Int = 0
 
+    let trailID: TrailID
+
     static let nodePositions: [CGPoint] = [
-        CGPoint(x: 195, y: 2978),  // 1: Criação
-        CGPoint(x: 82,  y: 2742),  // 2: Adão e Eva
-        CGPoint(x: 308, y: 2514),  // 3: Noé
-        CGPoint(x: 82,  y: 2287),  // 4: Babel
-        CGPoint(x: 308, y: 2060),  // 5: Abraão
-        CGPoint(x: 82,  y: 1834),  // 6: Isaque/Jacó
-        CGPoint(x: 308, y: 1607),  // 7: José
-        CGPoint(x: 82,  y: 1381),  // 8: Moisés
-        CGPoint(x: 308, y: 1154),  // 9: Pragas
-        CGPoint(x: 82,  y: 928),   // 10: Mar Vermelho
-        CGPoint(x: 308, y: 702),   // 11: Mandamentos
-        CGPoint(x: 195, y: 443),   // 12: Josué
+        CGPoint(x: 195, y: 2978),
+        CGPoint(x: 82,  y: 2742),
+        CGPoint(x: 308, y: 2514),
+        CGPoint(x: 82,  y: 2287),
+        CGPoint(x: 308, y: 2060),
+        CGPoint(x: 82,  y: 1834),
+        CGPoint(x: 308, y: 1607),
+        CGPoint(x: 82,  y: 1381),
+        CGPoint(x: 308, y: 1154),
+        CGPoint(x: 82,  y: 928),
+        CGPoint(x: 308, y: 702),
+        CGPoint(x: 195, y: 443),
     ]
 
     var characterPosition: CGPoint {
@@ -28,10 +30,29 @@ class TrailViewModel: ObservableObject {
         nodes.filter { $0.status == .completed }.count
     }
 
-    private let progressKey = "trail_progress_v2"
+    private var progressKey: String {
+        switch trailID {
+        case .genesis:    return "trail_progress_v2"
+        case .evangelhos: return "trail_progress_evangelhos_v1"
+        }
+    }
 
-    init() {
-        var base = TrailData.nodes
+    static func savedCompletedCount(for trail: TrailID) -> Int {
+        let key: String
+        switch trail {
+        case .genesis:    key = "trail_progress_v2"
+        case .evangelhos: key = "trail_progress_evangelhos_v1"
+        }
+        return (UserDefaults.standard.array(forKey: key) as? [Int])?.count ?? 0
+    }
+
+    init(trail: TrailID = .genesis) {
+        trailID = trail
+        var base: [TrailNodeData]
+        switch trail {
+        case .genesis:    base = TrailData.nodes
+        case .evangelhos: base = EvangelhoData.nodes
+        }
         base[0].status = .available
         nodes = base
         loadProgress()
@@ -48,7 +69,11 @@ class TrailViewModel: ObservableObject {
     }
 
     func resetProgress() {
-        var base = TrailData.nodes
+        var base: [TrailNodeData]
+        switch trailID {
+        case .genesis:    base = TrailData.nodes
+        case .evangelhos: base = EvangelhoData.nodes
+        }
         base[0].status = .available
         nodes = base
         characterNodeIndex = 0

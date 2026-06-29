@@ -16,49 +16,47 @@ private let bEden:       CGFloat = 2639
 // MARK: - Main View
 
 struct TrailMapView: View {
-    @StateObject private var vm = TrailViewModel()
+    @StateObject private var vm = TrailViewModel(trail: .genesis)
     @State private var selectedNodeIndex: Int? = nil
     @State private var charBob: CGFloat = 0
     @State private var isWalking: Bool = false
     @State private var walkFacingRight: Bool = true
 
     var body: some View {
-        NavigationStack {
-            ZStack(alignment: .top) {
-                ScrollViewReader { proxy in
-                    ScrollView(.vertical, showsIndicators: false) {
-                        mapStack.frame(width: mapW, height: mapH)
-                    }
-                    .onAppear {
-                        withAnimation(.easeInOut(duration: 1.1).repeatForever(autoreverses: true)) { charBob = -10 }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                            withAnimation { proxy.scrollTo("char", anchor: .center) }
-                        }
-                    }
+        ZStack(alignment: .top) {
+            ScrollViewReader { proxy in
+                ScrollView(.vertical, showsIndicators: false) {
+                    mapStack.frame(width: mapW, height: mapH)
                 }
-                progressHeader
-            }
-            .ignoresSafeArea(edges: .bottom)
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .principal) {
-                    Label("Trilha do Conhecimento", systemImage: "map.fill")
-                        .font(.headline).foregroundColor(.white)
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button { vm.resetProgress() } label: {
-                        Image(systemName: "arrow.counterclockwise")
-                            .font(.system(size: 14)).foregroundColor(.white.opacity(0.7))
+                .onAppear {
+                    withAnimation(.easeInOut(duration: 1.1).repeatForever(autoreverses: true)) { charBob = -10 }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                        withAnimation { proxy.scrollTo("char", anchor: .center) }
                     }
                 }
             }
-            .toolbarBackground(Color(hex: 0x0A4D0A), for: .navigationBar)
-            .toolbarBackground(.visible, for: .navigationBar)
-            .sheet(isPresented: Binding(get: { selectedNodeIndex != nil },
-                                        set: { if !$0 { selectedNodeIndex = nil } })) {
-                if let i = selectedNodeIndex {
-                    TrailStudyView(node: vm.nodes[i], nodeIndex: i) { vm.completeNode(index: i) }
+            progressHeader
+        }
+        .ignoresSafeArea(edges: .bottom)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                Label("Gênesis ao Josué", systemImage: "map.fill")
+                    .font(.headline).foregroundColor(.white)
+            }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button { vm.resetProgress() } label: {
+                    Image(systemName: "arrow.counterclockwise")
+                        .font(.system(size: 14)).foregroundColor(.white.opacity(0.7))
                 }
+            }
+        }
+        .toolbarBackground(Color(hex: 0x0A4D0A), for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
+        .sheet(isPresented: Binding(get: { selectedNodeIndex != nil },
+                                    set: { if !$0 { selectedNodeIndex = nil } })) {
+            if let i = selectedNodeIndex {
+                TrailStudyView(node: vm.nodes[i], nodeIndex: i) { vm.completeNode(index: i) }
             }
         }
     }
